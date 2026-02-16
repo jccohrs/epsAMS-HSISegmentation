@@ -52,7 +52,8 @@ extensions = [
     'sphinx.ext.coverage',
     'function_index',
     'class_index',
-    'sphinxcontrib.bibtex'
+    'sphinxcontrib.bibtex',
+    "sphinx_autodoc_typehints"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -271,9 +272,9 @@ class ExtAutoSummary(Autosummary):
             elif 'functions' in self.options:
                 m = importlib.import_module(self.arguments[0])
 
-                funcs = inspect.getmembers(m)
-                funcs = [f for f in funcs if inspect.getmodule(f[1]) == m and callable(f[1]) and not inspect.isclass(f[1])]
-                funcs = sorted(funcs, key=lambda f: f[1].__code__.co_firstlineno)
+                funcs = inspect.getmembers(m)    
+                funcs = [f for f in funcs if inspect.getmodule(f[1]) == m]
+                funcs = sorted(funcs, key=lambda f: getattr(f[1], '__code__', None) and f[1].__code__.co_firstlineno or float('inf'))
 
                 self.content = ["~%s.%s" % (self.arguments[0], f[0]) for f in funcs if not f[0].startswith('_')]
         finally:

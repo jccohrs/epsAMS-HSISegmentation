@@ -1,13 +1,17 @@
 # Mathematical signal and image processing library
 
-This **m**athematical **s**ignal and **i**mage **p**rocessing **lib**rary (msiplib) implements functions and methods useful for processing with signals and images, like denoising and segmentation. The tools are developed in the group of Prof. Benjamin Berkels at AICES, RWTH Aachen University.
+The code in this folder is part of the **m**athematical **s**ignal and **i**mage **p**rocessing **lib**rary (msiplib) [[Github](https://github.com/berkels/msiplib)] that implements functions and methods useful for processing with signals and images, like denoising and segmentation. The tools are developed in the group of Prof. Benjamin Berkels at AICES, RWTH Aachen University.
 
 In particular, this package contains an implementation of the method proposed in
-the paper:
+the papers:
+
+Cohrs, Jan-Christopher & Kim, Ekaterina & Berkels, Benjamin. (2024). Sea-Ice States: Unsupervised Segmentation from Multispectral Data Based on Mumford-Shah Functional. 
 
 [1] Jan-Christopher Cohrs, Chandrajit Bajaj and Benjamin Berkels. A distribution-dependent Mumford-Shah model for unsupervised hyperspectral image segmentation. *IEEE Transactions on Geoscience and Remote Sensing*, 60:1--21, December 2022, Art no. 5545121. [[DOI](https://doi.org/10.1109/TGRS.2022.3227061) | [arXiv](https://arxiv.org/abs/2203.15058)]
 
-We appreciate any feedback on your experience with our methods. We would also appreciate if you cite the above mentioned paper when you use the software in your work. In case you encounter any problems when using this software, please do not hesitate to contact us: <berkels@aices.rwth-aachen.de>
+[2] Jan-Christopher Cohrs, Ekaterina Kim and Benjamin Berkels. Sea-Ice States: Unsupervised Segmentation from Multispectral Data Based on Mumford-Shah Functional. *Proceedings of the 27th IAHR International Symposium on Ice*, 2024.
+
+We appreciate any feedback on your experience with our methods. We would also appreciate if you cite the above mentioned papers when you use the software in your work. In case you encounter any problems when using this software, please do not hesitate to contact us: <berkels@aices.rwth-aachen.de>
 
 ## Installation
 The code can be made importable by creating a local copy of it and installing it as a package with
@@ -19,15 +23,46 @@ or
 ```
 $ pip install <local path to repo>
 ```
-In addition, a yaml-file is provided to directly create a conda environment containing the necessary packages to run the code. In order to create such an environment, please run
+In addition, if conda is used, one can use the provided yaml-file to directly create a conda environment containing the necessary packages to run the code. In order to create such an environment, please go inside the directory `msiplib` (containing `docs`, `msiplib` and `tests`) and run
 ```
 $ conda env create -f env-msiplib.yml
 ```
-from the root directory of the repository. This will also automatically install `msiplib` as a package in the created environment.
+Afterwards, activate the environment with
+```
+$ conda activate msiplib
+```
+and run the `conda develop` command from above that should point to the upper `msiplib` directory.
+This will install `msiplib` as a package in the created environment.
+
+If the code should be run on a GPU, one has to add the entry `- cupy` to the yaml-file. A suitable version of the CUDA toolkit should be installed automatically.
+
+### Dependencies
+Please note that the code is only compatible with Numpy 1.* due to the `spectralpython` package that is used in our code but unfortunately not maintained anymore.
+If the yaml file is used to create a conda environment with the necessary packages, a compatible Numpy version is installed.
 
 ## Usage
-Examples of simple segmentation and denoising code for grayscale and RGB images can be found in `examples`.
-A script to run the code belonging to the published paper [1] can be found in `tools/hsi_segmentation`. Please note that in order to download the test data, the openssl package of version 1.1.1 is needed.
+To run the segmentation algorithm that was introduced in [1] and is called in the code `epsAMS`, the script `run_hsi_segmentation.py` can be used.
+Inside the script, two necessary environment variables are set.
+By changing the path of the environment variable `OUTPUT_DIR` in line 114, one can specify the path where the generated output is stored.
+In lines 123, 126 and 129, the path to the input file, the number of segments and the weight, resp., of the regularizer have to be set.
+Then, one can run the script to perform the segmentation.
+
+In line 118 in the file, a dictionary with default settings for the segmentation algorithm is created.
+The default settings are the ones that were used in [2].
+They can be changed in the function `create_args_dict` inside the script or by setting the parameter that one wants to change as was done in lines 123, 126 and 129.
+
+### Input format
+The segmentation code essentially works with three-dimensional array where the first two axes are the spatial coordinates and the third axis represents the spectral information.
+The data formats that are handled by the code so far (see `msiplib/segmentation/hsi/input_output.py`) are
+- netCDF4 (expecting a variable called `data` that contains the data as a three-dimensional array),
+- mat files,
+- data formats that imageio.imread can handle.
+This can be extended to also handle other data formats.
+
+### Git information for reproducibility
+The original code base was implemented in such a way that the current git commit of the repository was logged in order to have reproducibility of the results.
+Since this code version is not distributed as a git repository, the corresponding functions that are responsible for the retrieval of the git information are commented out.
+To get back that functionality, make the `msiplib` folder a repository and uncomment the lines 309, 327, 328, 619-643 in `msiplib/segmentation/hsi/args_processing.py`
 
 ## Documentation
 A documentation can be automatically generated by following the steps described in `docs/README`.
