@@ -2,10 +2,7 @@
 
 The code in this folder is part of the **m**athematical **s**ignal and **i**mage **p**rocessing **lib**rary (msiplib) [[Github](https://github.com/berkels/msiplib)] that implements functions and methods useful for processing with signals and images, like denoising and segmentation. The tools are developed in the group of Prof. Benjamin Berkels at AICES, RWTH Aachen University.
 
-In particular, this package contains an implementation of the method proposed in
-the papers:
-
-Cohrs, Jan-Christopher & Kim, Ekaterina & Berkels, Benjamin. (2024). Sea-Ice States: Unsupervised Segmentation from Multispectral Data Based on Mumford-Shah Functional. 
+In particular, this package contains an implementation of the method proposed and applied, resp., in the papers:
 
 [1] Jan-Christopher Cohrs, Chandrajit Bajaj and Benjamin Berkels. A distribution-dependent Mumford-Shah model for unsupervised hyperspectral image segmentation. *IEEE Transactions on Geoscience and Remote Sensing*, 60:1--21, December 2022, Art no. 5545121. [[DOI](https://doi.org/10.1109/TGRS.2022.3227061) | [arXiv](https://arxiv.org/abs/2203.15058)]
 
