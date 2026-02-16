@@ -306,7 +306,7 @@ def initialize_logger(args):
         )
     filename = f"{filepath_name}.log"
 
-    # git_info = get_git_info()
+    git_info = get_git_info()
 
     logging.basicConfig(
         level=logging.INFO,
@@ -324,8 +324,8 @@ def initialize_logger(args):
     )
     ms_logger.info("Time stamp: %s", time_stamp)
     ms_logger.info("Working on: %s", os.uname()[1])
-    # ms_logger.info("Current msiplib git branch: %s", git_info["msiplib"]["branch"])
-    # ms_logger.info("Current msiplib git commit: %s", git_info["msiplib"]["commit"])
+    ms_logger.info("Current msiplib git branch: %s", git_info["msiplib"]["branch"])
+    ms_logger.info("Current msiplib git commit: %s", git_info["msiplib"]["commit"])
     ms_logger.info("Configuration:")
     ms_logger.info("Number of segments: %s", args["k"])
     ms_logger.info("Regularization parameter: %s", args["reg_par"])
@@ -616,28 +616,28 @@ def create_config(filename, args):
         f.close()
 
     # write git info to parameter file
-    # append_git_info(filename)
+    append_git_info(filename)
 
 
-# def get_git_info():
-#     """function extracts information about current git branch and hash of current commit"""
-#     git_info = {}
+def get_git_info():
+    """function extracts information about current git branch and hash of current commit"""
+    git_info = {}
 
-#     # msiplib repository
-#     msiplib_repo = git.Repo(path=os.path.expandvars("${REPOS_DIR}/msiplib"))
-#     try:
-#         git_info["msiplib"] = {"branch": msiplib_repo.active_branch.name, "commit": msiplib_repo.head.object.hexsha}
-#     except TypeError:
-#         print('Current HEAD is detached. Store only current commit hash.')
-#         git_info["msiplib"] = {"branch": "Detached HEAD", "commit": msiplib_repo.head.object.hexsha}
+    # msiplib repository
+    msiplib_repo = git.Repo(path=os.path.expandvars("${REPOS_DIR}/msiplib"))
+    try:
+        git_info["msiplib"] = {"branch": msiplib_repo.active_branch.name, "commit": msiplib_repo.head.object.hexsha}
+    except TypeError:
+        print('Current HEAD is detached. Store only current commit hash.')
+        git_info["msiplib"] = {"branch": "Detached HEAD", "commit": msiplib_repo.head.object.hexsha}
 
-    # return git_info
+    return git_info
 
 
-# def append_git_info(file):
-#     """function appends git info to a given file"""
-#     git_info = get_git_info()
-#     with open(file, "a", encoding="utf_8") as f:
-#         f.write(f'# Current msiplib git branch: {git_info["msiplib"]["branch"]}\n')
-#         f.write(f'# Current msiplib git commit: {git_info["msiplib"]["commit"]}\n')
-#         f.close()
+def append_git_info(file):
+    """function appends git info to a given file"""
+    git_info = get_git_info()
+    with open(file, "a", encoding="utf_8") as f:
+        f.write(f'# Current msiplib git branch: {git_info["msiplib"]["branch"]}\n')
+        f.write(f'# Current msiplib git commit: {git_info["msiplib"]["commit"]}\n')
+        f.close()
