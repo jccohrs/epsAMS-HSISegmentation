@@ -517,7 +517,7 @@ def ms_segmentation(args):
     if (args["gt_file"] is not None) or nc_gt_flag:
         return -1 * score
     else:
-        return segmentation_new, u
+        return segmentation_new, u, logger_path
 
 
 def main():
