@@ -183,6 +183,8 @@ def saveColoredSegmentation(segmentation_mask, filename, colormap=None, ignore_l
         boundaries = find_boundaries(gt, connectivity=1, mode='thick')
         col_img[boundaries] = bd_col
 
+    col_img = np.squeeze(col_img)
+
     imwrite(filename, (255 * col_img).astype('uint8'))
 
 
