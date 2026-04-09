@@ -624,7 +624,7 @@ def get_git_info():
     git_info = {}
 
     # msiplib repository
-    msiplib_repo = git.Repo(path=os.path.expandvars("${REPOS_DIR}/msiplib"))
+    msiplib_repo = git.Repo(path=os.path.expandvars("${REPOS_DIR}/epsAMS-HSISegmentation"))
     try:
         git_info["msiplib"] = {"branch": msiplib_repo.active_branch.name, "commit": msiplib_repo.head.object.hexsha}
     except TypeError:
