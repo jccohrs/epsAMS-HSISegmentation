@@ -40,7 +40,7 @@ def initialize_segmentation(image, k, valid_mask, args, gt=None, seed=42):
         from sklearn.cluster import KMeans
 
         init = "k-means++"
-        n_init = 10
+        n_init = 100
         max_iter = 300
         tol = 1e-04
         logger.info("Kmeans initialization: %s", init)
