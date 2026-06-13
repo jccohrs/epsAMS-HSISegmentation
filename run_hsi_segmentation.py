@@ -110,9 +110,10 @@ def main():
     """main function"""
 
     ############# Preparation ##############
-    # set environment variables for the segmentation output directory and the directory containing the msiplib
+    # set environment variables for the segmentation output directory
     os.environ['OUTPUT_DIR'] = './output'
-    os.environ['REPOS_DIR'] = '.'
+    # and the directory containing the msiplib
+    os.environ['REPOS_DIR'] = os.path.abspath(__file__).split('msiplib')[0][:-1]
 
     # get arguments dictionary with default settings
     args = create_args_dict()
@@ -128,6 +129,7 @@ def main():
     # set regularization parameter lambda
     args["reg_par"] = 0.01
 
+    ############# Run segmentation algorithm ##############
     ms_segmentation(args)
 
 if __name__ == "__main__":
